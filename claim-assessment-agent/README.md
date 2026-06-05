@@ -15,7 +15,7 @@ This project is an AI-powered claim assessment system built to automate the revi
 2. Copy `.env.example` to `.env` and fill in your `GEMINI_API_KEY`.
 3. Run `docker compose up -d --build` to start the PostgreSQL database and the Next.js application.
 4. Run `docker compose exec app npx prisma db push` to push the schema to the database.
-5. Run `docker compose exec app npx prisma db seed` to insert the 3 mock test cases.
+5. Run `sudo docker compose exec app npx ts-node --compilerOptions "{\"module\":\"CommonJS\"}" prisma/seed.ts` to insert the 3 mock test cases.
 6. Navigate to `http://localhost:3007` to use the application.
 
 ## System Prompt & Tool Design Decisions
