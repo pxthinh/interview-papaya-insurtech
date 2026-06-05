@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  app:
+    build: .
+    ports:
+      - "3007:3007"
+    environment:
+      - DATABASE_URL=postgresql://root:password@postgres:5432/claim_assessment?schema=public
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
   postgres:
     image: postgres:15-alpine
     environment:
