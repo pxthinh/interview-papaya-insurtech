@@ -15,7 +15,7 @@ This project is an AI-powered claim assessment system built to automate the revi
 2. Run `docker compose up -d` to start the PostgreSQL database.
 3. Run `npx prisma db push` to push the schema.
 4. Run `npx prisma db seed` to insert the 3 mock test cases into the database.
-5. Create a `.env` file with your `GEMINI_API_KEY`.
+5. Copy `.env.example` to `.env` and fill in your `GEMINI_API_KEY`.
 6. Run `npm run dev` and navigate to `http://localhost:3000`.
 
 ## System Prompt & Tool Design Decisions
