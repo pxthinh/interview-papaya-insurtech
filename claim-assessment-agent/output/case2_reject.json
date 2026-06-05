@@ -1,0 +1,103 @@
+{
+  "caseName": "case2_reject",
+  "claimInput": {
+    "claimDetails": {
+      "amount": 3500,
+      "memberId": "MEM-003",
+      "claimType": "Dental",
+      "diagnosis": "Tooth Decay",
+      "procedures": [
+        "Cosmetic Crown"
+      ],
+      "treatmentDate": "2026-05-15"
+    },
+    "policyData": {
+      "policyId": "POL-002"
+    },
+    "documents": [
+      "DOC-201"
+    ]
+  },
+  "toolCallLogs": [
+    {
+      "step": 1,
+      "tool": "verifyDocument",
+      "input": {
+        "documentId": "DOC-201"
+      },
+      "output": {
+        "id": "DOC-201",
+        "type": "Invoice",
+        "isComplete": true,
+        "issues": null
+      }
+    },
+    {
+      "step": 2,
+      "tool": "lookupPolicy",
+      "input": {
+        "policyId": "POL-002"
+      },
+      "output": {
+        "id": "POL-002",
+        "status": "Active",
+        "coverageStartDate": "2026-01-01T00:00:00.000Z",
+        "coverageEndDate": "2026-12-31T00:00:00.000Z",
+        "coveredMembers": [
+          "MEM-003"
+        ],
+        "benefits": [
+          "Dental"
+        ],
+        "limit": 1000,
+        "exclusions": [
+          "Cosmetic Crown",
+          "Teeth Whitening"
+        ],
+        "copay": 0.2,
+        "waitingPeriod": "None",
+        "requiredDocuments": {
+          "Dental": [
+            "Invoice"
+          ]
+        }
+      }
+    },
+    {
+      "step": 3,
+      "tool": "checkMedicalNecessity",
+      "input": {
+        "diagnosis": "Tooth Decay",
+        "procedures": [
+          "Cosmetic Crown"
+        ]
+      },
+      "output": {
+        "diagnosis": "Tooth Decay",
+        "procedures": [
+          "Cosmetic Crown"
+        ],
+        "isAppropriate": false,
+        "reasoning": "Procedures are not standard for Tooth Decay."
+      }
+    },
+    {
+      "step": 4,
+      "tool": "calculateBenefit",
+      "input": {
+        "claimType": "Dental",
+        "policyId": "POL-002",
+        "amount": 3500
+      },
+      "output": {
+        "submittedAmount": 3500,
+        "coveredAmount": 1000,
+        "copayPercentage": 0.2,
+        "memberResponsibility": 2500,
+        "remainingLimit": 0
+      }
+    }
+  ],
+  "assessmentReport": "### Document Review\n*   **DOC-201**: Status is complete, no issues found. Type is \"Invoice\". \n*   **Required Documents**: The policy requires an \"Invoice\" for Dental claims. All required documents are present.\n\n### Policy Verification\n*   **Active Status**: Policy POL-002 is active.\n*   **Member Verification**: Member MEM-003 is covered under this policy.\n*   **Coverage Period**: Treatment date (2026-05-15) falls within the coverage period (2026-01-01 to 2026-12-31).\n*   **Claim Type**: \"Dental\" is a covered benefit type under this policy.\n\n### Medical Necessity\n*   The procedure \"Cosmetic Crown\" is not medically necessary for the diagnosis of \"Tooth Decay\".\n\n### Benefit Calculation\n*   **Submitted Amount**: $3,500.00\n*   **Covered Amount**: $1,000.00 (Limited by policy maximum)\n*   **Copay**: $200.00 (20% of covered amount)\n*   **Member Responsibility**: $2,500.00 ($2,500.00 total)\n\n### Recommendation\n**REJECT**\nThe claim is rejected because the procedure \"Cosmetic Crown\" is explicitly listed as an exclusion in the policy and was found not medically necessary for the diagnosis of \"Tooth Decay\".\n\n### Policy Citations\n*   **Exclusion**: \"Cosmetic Crown\" is listed under the exclusions section of POL-002.\n*   **Medical Necessity**: Procedure is not clinically appropriate for the diagnosis (verified via Medical Necessity check).",
+  "timestamp": "2026-06-05T03:00:25.460Z"
+}

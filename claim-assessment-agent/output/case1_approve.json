@@ -1,0 +1,119 @@
+{
+  "caseName": "case1_approve",
+  "claimInput": {
+    "claimDetails": {
+      "amount": 5000,
+      "memberId": "MEM-001",
+      "claimType": "Surgery",
+      "diagnosis": "Appendicitis",
+      "procedures": [
+        "Appendectomy"
+      ],
+      "treatmentDate": "2026-05-10"
+    },
+    "policyData": {
+      "policyId": "POL-001"
+    },
+    "documents": [
+      "DOC-101",
+      "DOC-102"
+    ]
+  },
+  "toolCallLogs": [
+    {
+      "step": 1,
+      "tool": "verifyDocument",
+      "input": {
+        "documentId": "DOC-101"
+      },
+      "output": {
+        "id": "DOC-101",
+        "type": "MedicalReport",
+        "isComplete": true,
+        "issues": null
+      }
+    },
+    {
+      "step": 2,
+      "tool": "verifyDocument",
+      "input": {
+        "documentId": "DOC-102"
+      },
+      "output": {
+        "id": "DOC-102",
+        "type": "Invoice",
+        "isComplete": true,
+        "issues": null
+      }
+    },
+    {
+      "step": 3,
+      "tool": "lookupPolicy",
+      "input": {
+        "policyId": "POL-001"
+      },
+      "output": {
+        "id": "POL-001",
+        "status": "Active",
+        "coverageStartDate": "2026-01-01T00:00:00.000Z",
+        "coverageEndDate": "2026-12-31T00:00:00.000Z",
+        "coveredMembers": [
+          "MEM-001",
+          "MEM-002"
+        ],
+        "benefits": [
+          "Surgery",
+          "Hospitalization"
+        ],
+        "limit": 10000,
+        "exclusions": [
+          "Cosmetic"
+        ],
+        "copay": 0.1,
+        "waitingPeriod": "None",
+        "requiredDocuments": {
+          "Surgery": [
+            "MedicalReport",
+            "Invoice"
+          ]
+        }
+      }
+    },
+    {
+      "step": 4,
+      "tool": "checkMedicalNecessity",
+      "input": {
+        "procedures": [
+          "Appendectomy"
+        ],
+        "diagnosis": "Appendicitis"
+      },
+      "output": {
+        "diagnosis": "Appendicitis",
+        "procedures": [
+          "Appendectomy"
+        ],
+        "isAppropriate": true,
+        "reasoning": "Procedures are standard for this diagnosis."
+      }
+    },
+    {
+      "step": 5,
+      "tool": "calculateBenefit",
+      "input": {
+        "policyId": "POL-001",
+        "claimType": "Surgery",
+        "amount": 5000
+      },
+      "output": {
+        "submittedAmount": 5000,
+        "coveredAmount": 4500,
+        "copayPercentage": 0.1,
+        "memberResponsibility": 500,
+        "remainingLimit": 5500
+      }
+    }
+  ],
+  "assessmentReport": "### Document Review\n*   **DOC-101**: MedicalReport - Status: Complete, No issues.\n*   **DOC-102**: Invoice - Status: Complete, No issues.\n*   **Requirement Check**: The required documents for \"Surgery\" are [MedicalReport, Invoice]. Both were provided. No documents are missing.\n\n### Policy Verification\n*   **Policy Status**: Active.\n*   **Member Verification**: Member ID `MEM-001` is listed in the covered members.\n*   **Coverage Period**: Treatment date `2026-05-10` is within the coverage period (`2026-01-01` to `2026-12-31`).\n*   **Claim Type**: Surgery is a covered benefit.\n\n### Medical Necessity\n*   The Appendectomy procedure is medically necessary for the diagnosis of Appendicitis.\n\n### Benefit Calculation\n*   **Submitted Amount**: $5,000.00\n*   **Copay**: $500.00 (10% copay applied per policy).\n*   **Covered Amount**: $4,500.00.\n*   **Remaining Policy Limit**: $5,500.00.\n\n### Recommendation\n**APPROVE**. The claim meets all requirements, is medically necessary, falls within the policy coverage dates, and includes the required documentation. The member is responsible for the $500.00 copayment.\n\n### Policy Citations\n*   **Coverage Dates**: Policy `POL-001` coverage is valid from `2026-01-01` to `2026-12-31`.\n*   **Covered Members**: `MEM-001` is explicitly listed in `coveredMembers`.\n*   **Required Documents**: Policy requires `MedicalReport` and `Invoice` for claim type `Surgery`.\n*   **Copay**: Policy specifies a `0.1` (10%) copay for covered services.\n*   **Limits**: Total policy limit is `10,000`, which is sufficient for this claim.",
+  "timestamp": "2026-06-05T03:00:04.689Z"
+}

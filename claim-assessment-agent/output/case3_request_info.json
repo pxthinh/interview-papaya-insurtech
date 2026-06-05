@@ -1,0 +1,103 @@
+{
+  "caseName": "case3_request_info",
+  "claimInput": {
+    "claimDetails": {
+      "amount": 500,
+      "memberId": "MEM-004",
+      "claimType": "Therapy",
+      "diagnosis": "Back Pain",
+      "procedures": [
+        "Physical Therapy"
+      ],
+      "treatmentDate": "2026-05-20"
+    },
+    "policyData": {
+      "policyId": "POL-003"
+    },
+    "documents": [
+      "DOC-102"
+    ]
+  },
+  "toolCallLogs": [
+    {
+      "step": 1,
+      "tool": "verifyDocument",
+      "input": {
+        "documentId": "DOC-102"
+      },
+      "output": {
+        "id": "DOC-102",
+        "type": "Invoice",
+        "isComplete": true,
+        "issues": null
+      }
+    },
+    {
+      "step": 2,
+      "tool": "lookupPolicy",
+      "input": {
+        "policyId": "POL-003"
+      },
+      "output": {
+        "id": "POL-003",
+        "status": "Active",
+        "coverageStartDate": "2026-01-01T00:00:00.000Z",
+        "coverageEndDate": "2026-12-31T00:00:00.000Z",
+        "coveredMembers": [
+          "MEM-004",
+          "MEM-005"
+        ],
+        "benefits": [
+          "Therapy",
+          "Consultation"
+        ],
+        "limit": 2000,
+        "exclusions": [],
+        "copay": 0,
+        "waitingPeriod": "None",
+        "requiredDocuments": {
+          "Therapy": [
+            "MedicalReport",
+            "Invoice"
+          ]
+        }
+      }
+    },
+    {
+      "step": 3,
+      "tool": "checkMedicalNecessity",
+      "input": {
+        "procedures": [
+          "Physical Therapy"
+        ],
+        "diagnosis": "Back Pain"
+      },
+      "output": {
+        "diagnosis": "Back Pain",
+        "procedures": [
+          "Physical Therapy"
+        ],
+        "isAppropriate": true,
+        "reasoning": "Procedures are standard for this diagnosis."
+      }
+    },
+    {
+      "step": 4,
+      "tool": "calculateBenefit",
+      "input": {
+        "claimType": "Therapy",
+        "policyId": "POL-003",
+        "amount": 500
+      },
+      "output": {
+        "submittedAmount": 500,
+        "coveredAmount": 500,
+        "copayPercentage": 0,
+        "memberResponsibility": 0,
+        "remainingLimit": 1500
+      }
+    }
+  ],
+  "assessmentReport": "### Document Review\n*   **DOC-102 (Invoice):** Status: Complete, Issues: None.\n*   **Missing Documents:** The policy requires both a `MedicalReport` and an `Invoice` for claims of type `Therapy`. Currently, only an `Invoice` has been provided. The `MedicalReport` is missing.\n\n### Policy Verification\n*   **Policy Status:** Active (POL-003).\n*   **Member Coverage:** MEM-004 is listed as a covered member.\n*   **Coverage Period:** The treatment date (2026-05-20) falls within the policy's coverage period (2026-01-01 to 2026-12-31).\n*   **Claim Type:** Therapy is a covered benefit under this policy.\n\n### Medical Necessity\n*   The procedure \"Physical Therapy\" for the diagnosis \"Back Pain\" is confirmed as clinically appropriate.\n\n### Benefit Calculation\n*   **Submitted Amount:** $500.00\n*   **Covered Amount:** $500.00\n*   **Copay:** $0.00\n*   **Member Responsibility:** $0.00\n*   **Remaining Limit:** $1,500.00\n\n### Recommendation\n**REQUEST_MORE_INFO**\nReasoning: While the claim meets clinical and financial requirements, it is incomplete. The policy requires both an Invoice and a Medical Report for Therapy claims. Only the Invoice (DOC-102) was submitted.\n\n### Policy Citations\n*   **Required Documents:** \"The policy requires the following documents for Therapy claims: MedicalReport, Invoice.\" (Ref: POL-003, `requiredDocuments` clause).",
+  "timestamp": "2026-06-05T03:01:14.156Z"
+}
