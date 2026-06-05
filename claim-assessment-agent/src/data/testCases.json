@@ -1,0 +1,17 @@
+{
+  "case1_approve": {
+    "claimDetails": { "memberId": "MEM-001", "claimType": "Surgery", "amount": 5000, "diagnosis": "Appendicitis", "procedures": ["Appendectomy"], "treatmentDate": "2026-05-10" },
+    "policyData": { "policyId": "POL-001" },
+    "documents": ["DOC-101", "DOC-102"]
+  },
+  "case2_reject": {
+    "claimDetails": { "memberId": "MEM-003", "claimType": "Dental", "amount": 3500, "diagnosis": "Tooth Decay", "procedures": ["Cosmetic Crown"], "treatmentDate": "2026-05-15" },
+    "policyData": { "policyId": "POL-002" },
+    "documents": ["DOC-201"]
+  },
+  "case3_request_info": {
+    "claimDetails": { "memberId": "MEM-004", "claimType": "Therapy", "amount": 500, "diagnosis": "Back Pain", "procedures": ["Physical Therapy"], "treatmentDate": "2026-05-20" },
+    "policyData": { "policyId": "POL-003" },
+    "documents": ["DOC-102"] 
+  }
+}

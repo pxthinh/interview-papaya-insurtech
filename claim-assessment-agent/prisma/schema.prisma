@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Policy {
+  id                String   @id
+  status            String
+  coverageStartDate DateTime
+  coverageEndDate   DateTime
+  coveredMembers    String[] // Array of member IDs
+  benefits          String[] // Array of benefit strings
+  limit             Float
+  exclusions        String[] // Array of exclusion strings
+  copay             Float
+  waitingPeriod     String
+
+  // To handle required documents simply, we can use JSON
+  requiredDocuments Json
+}
+
+model Document {
+  id         String  @id
+  type       String
+  isComplete Boolean
+  issues     String?
+}
+
+model MedicalRule {
+  id         String   @id @default(cuid())
+  diagnosis  String   @unique
+  procedures String[] // Array of valid procedures
+}
+
+// We can also store the test cases in the database if we want, or keep them in code.
+// The requirements say "chuyển thành DB postgress", so I will put test cases in DB too.
+model TestCase {
+  id            String   @id
+  claimDetails  Json
+  policyId      String
+  documents     String[]
+}
